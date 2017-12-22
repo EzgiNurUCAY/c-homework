@@ -1,0 +1,227 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace hw5
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+
+            /*This is some examples poem */
+
+            //string[] poem = {"Koyun verdi kuzu verdi süt verDi", 
+            //                 "Yemek verdi ekmek verdi et veRdi", 
+            //                 "Kazma ile dövmeyince zor vErdi"};
+
+            string[] poem = {"Doğru söylerim halk razı değil",
+                            "Eğri söylerim sen razı değil",
+                            "Program yazmaya ben razı değil",
+                            "Bahane uydurmaya kim razı değil",
+                            "Daha fazla yazmaya herkes razı değil"};
+
+            //string[] poem = {"Zannetme ki şöyle böyle bir söz", 
+            //                 "Gel sen dahi söyle böyle bir söz", 
+            //                 "Güzel yüzden ne şöyle böyle bir söz", 
+            //                 "Ne böyle kuru, sert böyle bir söz"};
+
+            //string[] poem = {"One morning you will look in vain",
+            //                  "My smile of delicate disdain", 
+            //                  "one touch. . . and then again",  
+            //                  "Like ink the color red, I stain", 
+            //                  "the hearts of those whose love I drain", 
+            //                  "and then she leaves when I remain", 
+            //                  "Perhaps she sometimes ignites the drifting tallgrass plain",
+            //                  "rainbows blazing an arc over sparkling rain", 
+            //                  "Perhaps she burns across diamond ice in glacial mountain",
+            //                  "heartbroken she wondered how long the pain", 
+            //                  "Her face was smooth as porcelain"};
+
+            //string[] poem = {"Elmas için bilenmeden keskin derler",
+            //                "elmas daha keskin benim bilgilim, asilim, ışığım"};
+
+            //string[] poem = {"Közlerine kanar kanar giderim",
+            //                  "Gözlerine yanar yanar giderim", 
+            //                  "Sözlerini anar anar giderim", 
+            //                  "Anar giderim"};
+
+
+            //string[] poem = {"Zannetme ki şöyle böyle bir söz", 
+            //                 "Gel sen dahi söyle böyle bir söz", 
+            //                 "Güzel yüzden ne şöyle böyle bir söz", 
+            //                 "Ne böyle kuru, neyle böyle bir söz"};
+
+            //string[] poem = {"The evening hymn that sorrow", 
+            //                 "We promised love tomorrow", 
+            //                 "I am an orrow",
+            //                 "Now pride and love will borrow", 
+            //                 "It will be good morrow"};
+
+
+            //string[] poem = {"I do not like three eggs and ham",
+            //                "I do not like them Sam I am",
+            //                "I do not like them in a boat",
+            //                "I do not like them in a goat",
+            //                "I do not like them in a house",
+            //                "I do not like those mouses"};
+
+            //string[] poem = {"I do not like three eggs tand boat",
+            //                 "I do not like them in sand boat"};
+
+            string rhyme = null;
+            string radif = null;
+            string head_rhyme = null;
+            string head_radif = null;
+            // To make rhyme right.
+            string temp = null;
+
+            // To stop second for loop.
+            bool stopfor = true;
+
+            // To find space index.
+            int spaceindex = -2;
+            // To find the smallest line.
+            int minlength = int.MaxValue;
+
+
+            Console.WriteLine("\t This program shows in poetry rhyme, radif, head rhyme and head radif  \n");
+            for (int i = 0; i < poem.GetLength(0); i++)
+            {
+                Console.WriteLine("   " + poem[i]);
+            }
+            Console.WriteLine("\n");
+
+            // To change minuscule.
+            // To find the smallest line.
+            for (int i = 0; i < poem.Length; i++)
+            {
+                poem[i] = poem[i].Replace('I','i'); // To translate English letter.
+                poem[i] = poem[i].ToLower();
+                if (poem[i].Length < minlength)
+                { minlength = poem[i].Length; }
+            }
+
+            // For finding head radif and rhyme.
+            for (int k = 0; k <= minlength && stopfor == true; k++)
+            {
+                for (int i = 1; i < poem.Length; i++)
+                { // Save just one time for all line.
+                    if (i == 1)   // Compares according to first line. Checks the other lines.
+                    {
+                        if (poem[0][k] == poem[i][k])
+                        {
+                            head_rhyme = head_rhyme + poem[0][k];
+                        }
+                        else
+                        {
+                            stopfor = false;
+                            break;
+                        }
+                    }
+                    else
+                    { // To delete not same letter.
+                        if (poem[0][k] != poem[i][k])
+                        {
+                            head_rhyme = head_rhyme.Remove(head_rhyme.Length - 1, 1);
+                            stopfor = false;
+                            break;
+                        }
+                        else
+                            continue;
+                    }
+                }
+
+            }
+            // For writing head radif and head rhyme.
+            if (head_rhyme != null)
+            {   // If rhyme has any space that mean poem has radif.
+                spaceindex = head_rhyme.LastIndexOf(" ");
+
+                if (spaceindex == -1)
+                { Console.Write("Type: Head Radif \n " + "Repetition:  " + head_rhyme); }
+                else
+                {
+                    head_radif = head_rhyme.Substring(0, spaceindex);
+                    head_rhyme = head_rhyme.Substring(spaceindex);
+                    Console.WriteLine("Type: Head Radif \n " + "Repetition: " + head_radif);
+                   
+                    if (head_rhyme != " " && head_rhyme != "")
+                        Console.WriteLine("Type: Head Rhyme \n " + "Repetition: " + head_rhyme);
+
+                }
+            }
+            // To use again stopfor.
+            // To use again spaceindex.
+            stopfor = true;
+            spaceindex = -2;
+
+            // To find same letters.
+            // And if rhyme has any space that mean poem has radif.
+
+            for (int k = 1; k <= minlength && stopfor == true; k++)
+            {
+                for (int i = 1; i < poem.Length; i++)
+                {
+                    if (i == 1)
+                    {
+                        if (poem[0][poem[0].Length - k] == poem[i][poem[i].Length - k])
+
+                        { rhyme = rhyme + poem[0][poem[0].Length - k]; }
+                        else
+                        {
+                            stopfor = false;
+                            break;
+                        }
+
+                    }
+
+                    else
+                    {
+                        if ((poem[0][poem[0].Length - k] != poem[i][poem[i].Length - k]))
+                        {
+                            rhyme = rhyme.Remove(rhyme.Length - 1, 1);
+                            stopfor = false;
+                            break;
+                        }
+                        else
+                            continue;
+                    }
+
+
+                }
+             
+            }
+            // To fix rhyme.
+            if (rhyme != null)
+            {
+                for (int k = rhyme.Length - 1; k >= 0; k--)
+                {
+                    temp = temp + rhyme[k];
+                }
+            }
+
+            if (temp != null)
+            { // If temp has any space that mean poem has head radif.
+                spaceindex = temp.IndexOf(' ');
+
+                if (spaceindex == -1)// Just has rhyme.
+                { Console.Write("Type: Rhyme \n " + "Repetition: " + temp); }
+                else
+                {  // To seperate radif and rhyme.
+                    radif = temp.Substring(0, spaceindex);
+                    temp = temp.Substring(spaceindex);
+                    Console.WriteLine("Type: Radif \n " + "Repetition: " + temp);
+                    
+                    if (radif != "" && radif != " ")
+                        Console.WriteLine("Type: Rhyme \n " + "Repetition: " + radif);
+
+                }
+            }
+
+
+            Console.ReadKey();
+        }
+    }
+}
